@@ -21,13 +21,14 @@ from weiboapi.logger import get_logger
 api = apiclient.APIClient()
 
 
+# self-defined for proxies
 PROXY_LIST = [({}, 8)]
 N = sum([p[1] for p in PROXY_LIST])
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
-OUTDIR = '/home4/rxs/tags/'
-#TASK_FILE = os.path.join(CURRENT_PATH, 'remain_task')
-TASK_FILE = os.path.join(CURRENT_PATH, 'error_uids.txt')
+# self-defined for OUTDIR & TASK_FILE
+OUTDIR = os.path.join(CURRENT_PATH, 'data/')
+TASK_FILE = os.path.join(CURRENT_PATH, 'task.txt')
 LOG_FILE = os.path.join(CURRENT_PATH, 'error.log')
 DONE_FILE = os.path.join(CURRENT_PATH, 'done.log')
 STOP_FILE = os.path.join(CURRENT_PATH, 'stop.signal')
