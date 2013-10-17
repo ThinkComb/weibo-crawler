@@ -2,6 +2,9 @@
 
 """ Sina Weibo SDK: Naive Version - For Crawler
 Support http proxy.
+Crawler only support "GET" Method, if you take case of
+"POST", you would like this: https://github.com/ghostrong/weibosdk
+
 Author: Xiaosong Rong
 Email: rongxiaosong@gmail.com
 """
@@ -41,6 +44,8 @@ def _encode_params(**kw):
     return '&'.join(args)
 
 
+# Just support "GET"
+# "POST" inside this method is only for "request_token"
 def _call_with_proxy(url, method=_HTTP_GET, access_token=None, proxy={}, **kw):
     headers = {'Authorization': 'OAuth2 %s' % access_token}
     proxy_handler = urllib2.ProxyHandler(proxy)
