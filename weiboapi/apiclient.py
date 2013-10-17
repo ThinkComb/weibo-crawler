@@ -77,13 +77,13 @@ class APIClient(object):
     APP_KEY= ''
     APP_SECRET = ''
     REDIRECT_URL = ''
-    TOKEN_FILE = ''
-    access_token = ''
 
     def __init__(self, domain='api.weibo.com', version='2'):
         self.auth_url = 'https://%s/oauth2/' % domain
         self.api_url = 'https://%s/%s/' % (domain, version)
         self.config_from_object()
+        self.TOKEN_FILE = ''
+        self.access_token = ''
 
     def config_from_object(self):
         import config
