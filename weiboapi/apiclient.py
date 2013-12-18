@@ -2,9 +2,6 @@
 
 """ Sina Weibo SDK: Naive Version - For Crawler
 Support http proxy.
-Crawler only support "GET" Method, if you take case of
-"POST", you would like this: https://github.com/ghostrong/weibosdk
-
 Author: Xiaosong Rong
 Email: rongxiaosong@gmail.com
 """
@@ -33,6 +30,7 @@ class APIError(StandardError):
 _HTTP_GET = 'GET'
 _HTTP_POST = 'POST'
 _HTTP_UPLOAD = 'UPLOAD'
+TIMEOUT = 15
 
 
 def _encode_params(**kw):
@@ -44,8 +42,6 @@ def _encode_params(**kw):
     return '&'.join(args)
 
 
-# Just support "GET"
-# "POST" inside this method is only for "request_token"
 def _call_with_proxy(url, method=_HTTP_GET, access_token=None, proxy={}, **kw):
     headers = {'Authorization': 'OAuth2 %s' % access_token}
     proxy_handler = urllib2.ProxyHandler(proxy)
@@ -64,7 +60,7 @@ def _call_with_proxy(url, method=_HTTP_GET, access_token=None, proxy={}, **kw):
     req = urllib2.Request(http_url, headers=headers, data=data)
     # r = opener.open(req)
     urllib2.install_opener(opener)
-    r = urllib2.urlopen(req)
+    r = urllib2.urlopen(req, timeout=TIMEOUT)
     data = json.loads(r.read())
     if isinstance(data,dict) and data.has_key('error_code'): # **api error
         raise APIError(data['error_code'], data.get('error', ''), data.get('request', ''))
@@ -77,13 +73,13 @@ class APIClient(object):
     APP_KEY= ''
     APP_SECRET = ''
     REDIRECT_URL = ''
+    TOKEN_FILE = ''
+    access_token = ''
 
     def __init__(self, domain='api.weibo.com', version='2'):
         self.auth_url = 'https://%s/oauth2/' % domain
         self.api_url = 'https://%s/%s/' % (domain, version)
         self.config_from_object()
-        self.TOKEN_FILE = ''
-        self.access_token = ''
 
     def config_from_object(self):
         import config

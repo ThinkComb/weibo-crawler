@@ -7,7 +7,4 @@ PATH = os.path.dirname(os.path.abspath(__file__))
 TOKEN_FILE = os.path.join(PATH, 'token.json')
 ACCESS_TOKEN = ''
 
-proxies = {
-    'http': '',
-    'https': ''
-}
+proxies = {}
